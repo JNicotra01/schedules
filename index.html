@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="icon" href="icon.png" />
+	<title>Study Group Schedules</title>
+	<style>
+		body,
+        html {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            background-color: black;
+            height: 90vh;
+            width: 90vw;
+            border-radius: 1.5vh;
+            padding: 0.75vh;
+        }
+
+        .sidebar {
+            flex: 20%;
+            background-color: black;
+            padding: 0.5vh 0.25vh 0.5vh .5vh;
+            flex-direction: column;
+        }
+
+        .main {
+            flex: 80%;
+            padding: 0.5vh 0.5vh 0.49vh .25vh;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .button {
+            flex: 33.3%;
+            font-size: 2vh;
+            width: 3vh;
+            text-align: center;
+            padding: 0px;
+            border: none;
+            border-left: 0.5vh solid #777;
+            border-top: 0.25vh solid #777;
+            border-bottom: 0.25vh solid #777;
+            outline: none;
+            background-color: #C0C0C0;
+            transition: 1s background-color;
+            font-weight: 1000;
+            -webkit-user-select: none;
+			-moz-user-select: none;
+        }
+
+        .button:first-of-type {
+            border-top: 0.5vh solid #777;
+        }
+
+        .button:last-of-type {
+            border-bottom: 0.5vh solid #777;
+        }
+
+        .button:hover {
+            cursor: pointer;
+            background-color: #DADADA;
+        }
+
+        .active,
+        .active:hover {
+            background-color: #9D9D9D;
+            border-right: #9D9D9D;
+        }
+
+        .row {
+            display: flex;
+            flex: 100%;
+            height: 10%;
+            flex-direction: row;
+        }
+
+        .row:first-of-type .cell {
+            border-top: 0vh;
+        }
+
+        .row:last-of-type .cell {
+            border-bottom: 0vh;
+        }
+
+        .cell {
+            flex: 20%;
+            background-color: white;
+			display: flex;
+            box-sizing: border-box;
+            border: 0.3vh solid black;
+			justify-content: center;
+			align-items: center;
+			font-size: 1.5vw;
+			font-weight: 400;
+        }
+
+        .title {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            font-size: 2vw;
+            font-weight: 600;
+            -webkit-user-select: none;
+			-moz-user-select: none;
+        }
+		#buttons button {
+			border: 0.25vh solid #ccc;
+			outline: none;
+			width: 90%;
+			margin: 0.5vh 5% 0 5%;
+			cursor: pointer;
+			border-radius: 1vh;
+			padding: 0.5vh;
+			font-size: 0.5vw;
+			background-color: #CCC;
+            -webkit-user-select: none;
+			-moz-user-select: none;
+		}
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+		::-webkit-scrollbar-track {
+			background: #f1f1f1; 
+		}
+		::-webkit-scrollbar-thumb {
+			background: #888; 
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #555; 
+		}
+		.selected {
+			box-sizing: border-box !important;
+			border: 0.25vh solid black !important;
+		}
+		#input {
+			width: 80%;
+			height: 20%;
+			padding: 5px;
+			outline: none;
+			border: none;
+			color: white;
+			border-bottom: 0.5vh solid #39F;
+			background-color: transparent;
+			font-size: 1vw;
+            -webkit-user-select: none;
+			-moz-user-select: none;
+		}
+    </style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="sidebar">
+			<div style="background-color: black; width: 100%; height: 10%; display: flex; justify-content: center; align-items: center;">
+				<!-- Search Bar -->
+				<input id='input' oninput='searchTable()' type='text' placeholder='Search...'>
+			</div>
+			<div style="width: 100%; height: 90%; display: flex; flex-direction: row;">
+				<div style="width: 3vh; display: flex; flex-direction: column;">
+					<!-- Buttons -->
+					<button id="students" class="button active" onClick="toggleTab('students')">S<br />T<br />U<br />D<br />E<br />N<br />T<br />S</button>
+					<button id="selected" class="button" onClick="toggleTab('selected')">S<br />E<br />L<br />E<br />C<br />T<br />E<br />D</button>
+					<button id="teachers" class="button" onClick="toggleTab('teachers')">T<br />E<br />A<br />C<br />H<br />E<br />R<br />S</button>
+				</div>
+				<div style="background-color: #9D9D9D; border: 0.5vh solid #777; border-left: none; flex: 96%; display: flex; flex-direction: column;">
+					<!-- Content -->
+					<div style="height: 92%; width: 100%; overflow-x: none; overflow-y: scroll;" id="buttons">
+
+					</div>
+					<div style="height: 8%; width: 100%; background-color: transparent; display: flex; justify-content: center; align-items: center;">
+						<button onclick="deselectAll();" style="outline: none; background-color: transparent; border: none; font-size: 1.5vw; width: 100%; height: 100%; cursor: pointer; -webkit-user-select: none; -moz-user-select: none;">✘ Deselect All</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			<div style="width: 100%; height: 100%; display: flex; flex-direction: row; flex-wrap: wrap;">
+				<div class="row">
+					<div class="cell title">Monday</div>
+					<div class="cell title">Tuesday</div>
+					<div class="cell title">Wednesday</div>
+					<div class="cell title">Thursday</div>
+					<div class="cell title">Friday</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="0">8:10 - 9:10</div>
+					<div class="cell" id="1">8:10 - 9:10</div>
+					<div class="cell" id="2">8:10 - 9:10</div>
+					<div class="cell" id="3">8:10 - 9:10</div>
+					<div class="cell" id="4">8:10 - 9:10</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="5">9:10 - 10:10</div>
+					<div class="cell" id="6">9:10 - 10:10</div>
+					<div class="cell" id="7">9:10 - 10:10</div>
+					<div class="cell" id="8">9:10 - 10:10</div>
+					<div class="cell" id="9">9:10 - 10:10</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="10">10:10 - 11:10</div>
+					<div class="cell" id="11">10:10 - 11:10</div>
+					<div class="cell" id="12">10:10 - 11:10</div>
+					<div class="cell" id="13">10:10 - 11:10</div>
+					<div class="cell" id="14">10:10 - 11:10</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="15">11:10 - 11:40</div>
+					<div class="cell" id="16">11:10 - 11:40</div>
+					<div class="cell" id="17">11:10 - 11:40</div>
+					<div class="cell" id="18">11:10 - 11:40</div>
+					<div class="cell" id="19">11:10 - 11:40</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="20">11:40 - 12:30</div>
+					<div class="cell" id="21">11:40 - 12:30</div>
+					<div class="cell" id="22">11:40 - 12:30</div>
+					<div class="cell" id="23">11:40 - 12:30</div>
+					<div class="cell" id="24">11:40 - 12:30</div>
+				</div>
+				<div class="row">
+					<div class="cell title">Lunch</div>
+				</div>
+				<div class="row">
+					<div class="cell title">Advisory</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="25">1:40 - 2:40</div>
+					<div class="cell" id="26">1:40 - 2:40</div>
+					<div class="cell" id="27">1:40 - 2:40</div>
+					<div class="cell" id="28">1:40 - 2:40</div>
+					<div class="cell" id="29">1:40 - 2:40</div>
+				</div>
+				<div class="row">
+					<div class="cell" id="30">2:40 - 3:40</div>
+					<div class="cell" id="31">2:40 - 3:40</div>
+					<div class="cell" id="32">2:40 - 3:40</div>
+					<div class="cell" id="33">2:40 - 3:40</div>
+					<div class="cell" id="34">2:40 - 3:40</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script>
+		/*
+		 * TODO:
+		 * 
+		 */
+
+		var active = [],
+			students = {},
+			teachers = {},
+			studentHTML = [],
+			activeHTML = [],
+			teacherHTML = [],
+			activeTeacher = "",
+			empty = "X";
+		if (false) {
+			students = {
+				"Alaa.Al-Awartani": [
+					0, 0, 1, 1, 0,
+					0, 0, 1, 0, 1,
+					1, 1, 1, 1, 0,
+					1, 1, 0, 0, 1,
+					1, 0, 0, 0, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Amelia.Smith-Tine": [
+					1, 1, 1, 1, 1,
+					0, 1, 0, 0, 1,
+					0, 1, 0, 0, 1,
+					0, 1, 0, 1, 1,
+					1, 0, 1, 1, 0,
+					0, 0, 1, 0, 1,
+					1, 1, 1, 1, 1
+				],
+				"Blair.Parr": [
+					1, 1, 1, 0, 0,
+					0, 0, 0, 1, 1,
+					1, 1, 0, 0, 0,
+					0, 1, 1, 0, 1,
+					1, 0, 1, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Casey.Morar": [
+					0, 0, 0, 0, 0,
+					0, 0, 0, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 0, 1, 0, 1,
+					0, 1, 1, 0, 0,
+					1, 1, 0, 1, 1,
+					1, 0, 0, 0, 0
+				],
+				"Cody.Buckholt": [
+					0, 1, 1, 1, 0,
+					0, 1, 0, 0, 1,
+					1, 0, 1, 0, 1,
+					0, 0, 1, 1, 1,
+					0, 1, 0, 1, 0,
+					0, 1, 1, 0, 1,
+					1, 0, 0, 0, 0
+				],
+				"David.Satterwhite": [
+					0, 1, 1, 1, 0,
+					1, 1, 1, 1, 1,
+					0, 1, 0, 0, 0,
+					0, 1, 0, 1, 1,
+					1, 0, 0, 0, 1,
+					0, 0, 1, 1, 0,
+					0, 0, 0, 0, 0
+				],
+				"Erik.Schauer": [
+					0, 0, 1, 0, 0,
+					1, 0, 1, 0, 1,
+					1, 1, 1, 0, 0,
+					1, 1, 0, 0, 1,
+					1, 1, 0, 1, 0,
+					0, 0, 0, 1, 0,
+					0, 0, 0, 1, 1
+				],
+				"Harrison.Mayer": [
+					0, 0, 0, 1, 0,
+					0, 0, 0, 0, 1,
+					0, 1, 0, 1, 0,
+					1, 0, 1, 1, 0,
+					1, 0, 1, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 0, 0, 0, 0
+				],
+				"Hunter.Ford": [
+					0, 0, 1, 0, 1,
+					0, 0, 0, 0, 1,
+					1, 0, 0, 0, 0,
+					1, 1, 0, 1, 0,
+					0, 1, 1, 0, 0,
+					1, 1, 1, 1, 0,
+					0, 1, 0, 1, 0
+				],
+				"Jacob.Arnold": [
+					0, 0, 1, 0, 1,
+					1, 1, 1, 0, 1,
+					1, 1, 1, 0, 0,
+					0, 1, 0, 1, 1,
+					1, 0, 0, 1, 1,
+					0, 0, 0, 1, 0,
+					1, 1, 1, 1, 1
+				],
+				"Mark.Garvey": [
+					0, 1, 0, 1, 0,
+					0, 0, 1, 0, 0,
+					1, 1, 1, 1, 1,
+					0, 1, 0, 1, 1,
+					1, 1, 1, 0, 0,
+					0, 0, 1, 0, 0,
+					0, 0, 0, 0, 1
+				],
+				"Joseph.Nicotra": [
+					0, 0, 1, 0, 0,
+					1, 0, 1, 0, 1,
+					1, 1, 1, 0, 0,
+					1, 1, 0, 0, 1,
+					1, 1, 0, 1, 0,
+					0, 0, 1, 0, 0,
+					0, 0, 0, 1, 1
+				],
+				"Connor.Thompson": [
+					1, 0, 0, 0, 1,
+					1, 1, 0, 0, 0,
+					0, 0, 1, 0, 1,
+					0, 1, 0, 0, 1,
+					0, 1, 0, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+
+				],
+				"Ryan.Fisher": [
+					1, 1, 1, 1, 1,
+					0, 0, 1, 0, 1,
+					0, 1, 0, 1, 1,
+					1, 1, 0, 0, 1,
+					1, 0, 0, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Vincent.Folkes": [
+					0, 0, 1, 1, 1,
+					1, 0, 1, 1, 0,
+					0, 0, 0, 0, 0,
+					1, 0, 0, 1, 1,
+					0, 1, 0, 0, 1,
+					1, 1, 0, 1, 0,
+					1, 0, 1, 1, 0
+				],
+				"Logan.Tanner": [
+					1, 0, 1, 0, 1,
+					0, 1, 1, 0, 0,
+					1, 0, 0, 0, 0,
+					1, 1, 1, 0, 0,
+					1, 1, 0, 0, 0,
+					0, 0, 1, 1, 0,
+					0, 0, 0, 1, 1
+				],
+				"Francesca.Cuzzocrea": [
+					0, 1, 1, 0, 0,
+					1, 0, 0, 1, 1,
+					0, 1, 0, 0, 1,
+					0, 1, 1, 0, 1,
+					1, 0, 0, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Gavin.Tatton": [
+					0, 1, 0, 0, 1,
+					1, 1, 0, 0, 0,
+					1, 0, 1, 0, 1,
+					1, 1, 0, 0, 1,
+					0, 1, 0, 1, 1,
+					0, 0, 1, 0, 0,
+					0, 1, 0, 1, 0
+				],
+				"Julia.Imler": [
+					1, 0, 1, 0, 0,
+					0, 0, 0, 0, 1,
+					0, 1, 0, 1, 0,
+					1, 1, 0, 0, 1,
+					1, 0, 0, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Jamir.Wilson": [
+					0, 1, 0, 1, 0,
+					1, 0, 1, 1, 1,
+					0, 0, 0, 1, 1,
+					0, 1, 1, 0, 1,
+					1, 1, 0, 1, 1,
+					0, 1, 1, 1, 0,
+					1, 1, 0, 1, 0
+				],
+				"Abbey.Helterbran": [
+					1, 0, 1, 1, 1,
+					1, 0, 0, 0, 1,
+					1, 1, 0, 0, 1,
+					0, 1, 1, 0, 1,
+					1, 1, 0, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Maurice.Gardner": [
+					0, 0, 1, 1, 0,
+					0, 1, 1, 0, 1,
+					1, 1, 1, 0, 0,
+					0, 1, 0, 1, 1,
+					1, 0, 0, 0, 1,
+					0, 1, 1, 0, 1,
+					0, 0, 0, 0, 0
+				],
+				"Peri.Matthews": [
+					0, 1, 1, 1, 0,
+					1, 0, 1, 0, 1,
+					0, 1, 1, 0, 0,
+					0, 1, 1, 0, 1,
+					1, 0, 0, 0, 0,
+					0, 0, 1, 0, 1,
+					0, 0, 1, 0, 1
+				],
+				"Savanna.Zink": [
+					0, 1, 0, 1, 0,
+					1, 1, 0, 0, 1,
+					0, 1, 1, 0, 1,
+					1, 1, 1, 1, 1,
+					0, 1, 0, 1, 1,
+					0, 1, 0, 1, 1,
+					1, 0, 1, 0, 0
+				],
+			}
+			teachers = {
+				"Copeland": [
+					0, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 0, 1, 0, 1,
+					0, 1, 0, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 0, 1,
+					0, 1, 0, 1, 1
+				],
+				"Barga": [
+					0, 0, 1, 0, 0,
+					0, 1, 1, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 0, 0, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Clark": [
+					0, 1, 1, 1, 1,
+					1, 1, 0, 1, 1,
+					0, 0, 1, 0, 0,
+					0, 0, 0, 1, 0,
+					0, 1, 1, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 0, 1, 0
+				],
+				"Davis": [
+					1, 0, 1, 1, 1,
+					1, 1, 0, 1, 1,
+					0, 1, 0, 1, 1,
+					1, 1, 1, 0, 0,
+					1, 1, 0, 0, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Fritz": [
+					1, 1, 0, 1, 1,
+					1, 1, 1, 1, 1,
+					0, 1, 1, 1, 1,
+					0, 0, 1, 1, 1,
+					1, 0, 1, 1, 0,
+					1, 1, 1, 1, 0,
+					1, 1, 0, 0, 1
+				],
+				"Lyskava": [
+					1, 1, 0, 1, 1,
+					1, 0, 1, 0, 0,
+					1, 0, 1, 1, 1,
+					0, 0, 1, 0, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Luft": [
+					1, 1, 1, 0, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 0,
+					1, 0, 0, 1, 1,
+					0, 1, 1, 1, 1,
+					1, 0, 0, 1, 1,
+					0, 1, 1, 1, 0
+				],
+				"Fratangelo": [
+					1, 1, 1, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Pascuzzi": [
+					1, 1, 1, 1, 1,
+					0, 0, 1, 0, 1,
+					1, 1, 0, 1, 1,
+					0, 1, 1, 0, 1,
+					1, 1, 1, 0, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Strasbaugh": [
+					1, 1, 1, 1, 1,
+					1, 1, 0, 1, 1,
+					1, 1, 1, 0, 1,
+					0, 0, 1, 0, 0,
+					0, 1, 1, 1, 1,
+					1, 1, 0, 1, 1,
+					1, 0, 1, 1, 0
+				],
+				"Mays": [
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 0,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				],
+				"Burns": [
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					1, 1, 1, 1, 1,
+					0, 1, 1, 1, 1,
+					1, 1, 1, 1, 1
+				]
+			}
+		} else {
+			var Http = new XMLHttpRequest(),
+				Http1 = new XMLHttpRequest();
+			Http.open("GET", "https://script.google.com/macros/s/AKfycbz_kkGXjc7sO8lBefMBXQoy30ClYZO6AceTvCrR-UmKMuYRxbc/exec");
+			Http.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					students = JSON.parse(Http.responseText);
+					genHTML();
+				}
+			}
+			Http1.open("GET", "https://script.google.com/macros/s/AKfycbx46OmFfJNyuMExGpp-6frOBzHmeJK1FTGMqQBl4ko6shOhb3Y/exec");
+			Http1.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					teachers = JSON.parse(Http1.responseText);
+					genHTML();
+				}
+			}
+			Http.send();
+			Http1.send();
+		}
+		// Sort student names alphabetically
+		Object.keys(students).sort().forEach(function(key) {
+			var value = students[key];
+			delete students[key];
+			students[key] = value;
+		});
+
+		// Sort teacher names alphabetically
+		Object.keys(teachers).sort().forEach(function(key) {
+			var value = teachers[key];
+			delete teachers[key];
+			teachers[key] = value;
+		});
+
+		// Generate button for each person
+		function genHTML() {
+			studentHTML = [];
+			teacherHTML = [];
+			activeHTML = [];
+			Object.keys(students).map(function(key, index) {
+				key = key.split(".");
+				// Add html to buttons div
+				var html = '<button id="' + key.join(".") + '"onClick="toggle(this);"' + ((active.indexOf(key.join(".")) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.25vw;">' + key[0].charAt(0).toUpperCase() + key[0].substring(1) + '</span><br><span style="font-size: 0.85vw;">' + key[1].charAt(0).toUpperCase() + key[1].substring(1) + '</span></div></button>';
+				studentHTML.push(html);
+				if (active.indexOf(key.join(".")) != -1) activeHTML.push(html);
+			});
+			Object.keys(teachers).map(function(key, index) {
+				teacherHTML.push('<button id="' + key + '"onClick="toggle(this);"' + ((activeTeacher.indexOf(key) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.35vw;">' + teachers[key][teachers[key].length-1] + " " + key + '</span></div></button>');
+			});
+			refreshHTML();
+		}
+		genHTML();
+
+		function toggleTab(str) {
+			var list = document.getElementsByClassName("button");
+			for (var i = 0; i < list.length; i++) list[i].classList.remove("active");
+			list[["students", "selected", "teachers"].indexOf(str)].classList.add("active");
+			genHTML();
+		}
+
+		function refreshHTML() {
+			// Reset cells
+			for (var i = 0; i < 35; i++) {
+				var val = "";
+				if (i < 5) val = "8:10 - 9:10";
+				else if (i < 10) val = "9:10 - 10:10";
+				else if (i < 15) val = "10:10 - 11:10";
+				else if (i < 20) val = "11:10 - 11:40";
+				else if (i < 25) val = "11:40 - 12:30";
+				else if (i < 30) val = "1:40 - 2:40";
+				else if (i < 35) val = "2:40 - 3:40";
+				document.getElementById(i).innerHTML = val;
+			}
+			switch (document.getElementsByClassName("active")[0].id) {
+				case "students":
+				case "selected":
+					if (document.getElementsByClassName("active")[0].id == "students") {
+						document.getElementById("buttons").innerHTML = studentHTML.join("");
+					} else {
+						document.getElementById("buttons").innerHTML = activeHTML.join("");
+					}
+					// Fill vals
+					Object.keys(students).map(function(objectKey, index) {
+						if (active.indexOf(objectKey) != -1) {
+							for (var j = 0; j < students[objectKey].length; j++)
+								if (students[objectKey][j] == 1) document.getElementById(j).innerHTML = empty;
+						}
+					});
+					break;
+				case "teachers":
+					document.getElementById("buttons").innerHTML = teacherHTML.join("");
+					// Fill vals
+					if (activeTeacher != "") {
+						for (var j = 0; j < teachers[activeTeacher].length; j++)
+							if (teachers[activeTeacher][j] == 1) document.getElementById(j).innerHTML = empty;
+					}
+					break;
+			}
+		}
+
+		function deselectAll() {
+			if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
+				active = [];
+			} else {
+				activeTeacher = "";
+			}
+			var list = document.getElementsByClassName("selected");
+			for (var j = 0; j < list.length; j++) {
+				list[j].classList.remove("selected");
+			}
+			genHTML();
+		}
+		// Toggle between active & inactive states
+		function toggle(button) {
+			if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
+				if (document.getElementById(button.id).classList.contains("selected")) {
+					document.getElementById(button.id).classList.remove("selected");
+					// Already selected, remove from array
+					active.splice(active.indexOf(button.id), 1);
+				} else {
+					document.getElementById(button.id).classList.add("selected");
+					// Not selected, add to array
+					active.push(button.id);
+				}
+			} else {
+				if (activeTeacher == button.id) {
+					document.getElementById(button.id).classList.remove("selected");
+					activeTeacher = "";
+				} else {
+					if (activeTeacher != "") document.getElementById(activeTeacher).classList.remove("selected");
+					document.getElementById(button.id).classList.add("selected");
+					activeTeacher = button.id;
+				}
+			}
+			genHTML();
+		}
+		// Search
+		function searchTable() {
+			// Loop through buttons in table & hide ones that don't contain query
+			var button = document.getElementById("buttons").getElementsByTagName("button");
+			for (var i = 0; i < button.length; i++) button[i].style.display = (button[i].id.replace(".", "").toUpperCase().indexOf(document.getElementById("input").value.toUpperCase().replace(/[^A-Z\-]*/g, "")) > -1) ? "" : "none";
+		}
+	</script>
+</body>
+
+</html>
