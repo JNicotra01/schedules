@@ -1,337 +1,172 @@
 var active = [],
-	students = {},
-	teachers = {},
-	studentHTML = [],
-	activeHTML = [],
-	teacherHTML = [],
-	activeTeacher = "",
-	empty = "X";
+    students = {},
+    teachers = {},
+    studentHTML = [],
+    activeHTML = [],
+    teacherHTML = [],
+    activeTeacher = "",
+    empty = "X";
 if (true) {
-	/*$.get("/data/students.json").done(function(data){
+    /*$.get("/data/students.json").done(function(data){
     // what do I do with the data?
 	students = data;
 	});
 	alert(JSON.stringify(students));*/
-	students = {
-		"Mark.Garvey": [
-			0, 0, 0, 0, 1,
-			0, 0, 1, 0, 0,
-			0, 0, 1, 0, 1,
-			1, 0, 1, 0, 1,
-			0, 1, 0, 0, 1,
-			0, 1, 1, 1, 0,
-			1, 0, 1, 0, 1
-		],
-		"Blair.Parr": [
-			1, 0, 1, 0, 0,
-			0, 1, 1, 1, 1,
-			0, 1, 0, 0, 1,
-			1, 1, 0, 1, 1,
-			1, 0, 0, 1, 0,
-			0, 0, 0, 0, 0,
-			0, 1, 0, 0, 1
-		],
-		"Joseph.Nicotra": [
-			0, 0, 1, 0, 0,
-			0, 1, 0, 0, 1,
-			1, 1, 0, 0, 1,
-			0, 1, 1, 1, 1,
-			1, 1, 1, 1, 0,
-			0, 1, 0, 1, 0,
-			0, 1, 0, 1, 0
-		],
-		"Hunter.Ford": [
-			0, 1, 1, 1, 0,
-			1, 0, 1, 0, 0,
-			0, 1, 1, 1, 1,
-			1, 0, 1, 0, 1,
-			0, 1, 0, 0, 0,
-			0, 0, 0, 0, 1,
-			0, 0, 0, 0, 1
-		],
-		"Jacob.Arnold": [
-			0, 0, 1, 0, 0,
-			1, 0, 0, 0, 1,
-			0, 1, 1, 0, 1,
-			1, 1, 1, 0, 1,
-			1, 1, 0, 0, 0,
-			0, 1, 0, 1, 0,
-			1, 1, 1, 1, 1
-		],
-		"Casey.Morar": [
-			0, 1, 1, 0, 1,
-			0, 0, 0, 1, 0,
-			0, 1, 0, 1, 1,
-			0, 1, 0, 1, 1,
-			0, 0, 0, 0, 0,
-			1, 0, 1, 0, 0,
-			1, 0, 0, 1, 0
-		],
-		"Nicholas.Jones": [
-			0, 0, 0, 0, 1,
-			1, 1, 0, 1, 0,
-			0, 0, 0, 0, 0,
-			0, 1, 0, 1, 1,
-			0, 0, 1, 0, 1,
-			1, 1, 1, 1, 1,
-			0, 0, 0, 0, 0
-		],
-		"Logan.Tanner": [
-			0, 1, 1, 1, 0,
-			1, 0, 1, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 0, 1, 1, 1,
-			0, 0, 0, 0, 0,
-			0, 1, 0, 1, 1,
-			1, 0, 1, 0, 1
-		],
-		"Erik.Schauer": [
-			0, 0, 1, 0, 0,
-			1, 0, 1, 1, 1,
-			1, 1, 0, 0, 1,
-			0, 1, 1, 1, 1,
-			1, 1, 1, 0, 1,
-			0, 1, 0, 0, 0,
-			0, 0, 0, 0, 0
-		],
-		"Cody.Buckholt": [
-			0, 0, 0, 0, 1,
-			0, 0, 0, 1, 0,
-			0, 0, 1, 0, 0,
-			1, 1, 0, 0, 1,
-			0, 0, 0, 0, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 0, 0, 0
-		],
-		"Abbey.Helterbran": [
-			0, 1, 1, 0, 0,
-			1, 0, 0, 0, 1,
-			0, 1, 0, 1, 0,
-			1, 1, 0, 1, 1,
-			1, 1, 0, 0, 0,
-			1, 0, 1, 0, 1,
-			1, 1, 1, 1, 1
-		],
-		"Gavin.Tatton": [
-			1, 0, 1, 0, 0,
-			0, 1, 0, 0, 0,
-			1, 1, 0, 0, 0,
-			0, 0, 1, 1, 0,
-			0, 0, 0, 1, 1,
-			1, 0, 1, 1, 1,
-			0, 1, 0, 0, 0
-		],
-		"Connor.Thompson": [
-			0, 0, 0, 0, 1,
-			1, 1, 1, 1, 0,
-			0, 0, 0, 0, 0,
-			1, 0, 0, 1, 1,
-			0, 0, 0, 0, 1,
-			1, 1, 1, 0, 0,
-			0, 0, 1, 0, 1
-		],
-		"Julia.Imler": [
-			0, 0, 1, 0, 1,
-			0, 0, 0, 0, 1,
-			1, 1, 0, 0, 0,
-			0, 1, 1, 1, 1,
-			1, 1, 1, 1, 0,
-			0, 0, 0, 0, 0,
-			0, 0, 0, 1, 0
-		],
-		"Ryan.Fisher": [
-			1, 1, 1, 0, 0,
-			0, 1, 0, 1, 1,
-			0, 1, 0, 0, 1,
-			0, 1, 1, 1, 1,
-			1, 0, 1, 0, 1,
-			1, 1, 0, 1, 1,
-			0, 1, 1, 1, 0
-		],
-		"David.Satterwhite": [
-			1, 1, 1, 0, 0,
-			0, 0, 0, 0, 1,
-			0, 1, 0, 1, 0,
-			1, 1, 1, 0, 1,
-			1, 0, 1, 0, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Jamir.Wilson": [
-			0, 1, 0, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 1, 0, 1, 0,
-			1, 0, 1, 1, 0,
-			0, 1, 0, 0, 0,
-			1, 0, 1, 1, 0,
-			1, 0, 0, 1, 0
-		],
-		"Amelia.Smith-Tine": [
-			0, 0, 1, 0, 0,
-			1, 0, 0, 0, 1,
-			1, 1, 1, 0, 0,
-			1, 1, 1, 0, 1,
-			1, 0, 0, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Savanna.Zink": [
-			0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0,
-			1, 0, 0, 1, 1,
-			0, 1, 1, 0, 1,
-			0, 1, 1, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Francesca.Cuzzocrea": [
-			0, 0, 1, 0, 0,
-			1, 0, 0, 1, 1,
-			0, 1, 0, 0, 1,
-			1, 1, 0, 1, 1,
-			1, 0, 0, 0, 0,
-			0, 0, 0, 0, 1,
-			0, 1, 1, 0, 0
-		],
-		"Harrison.Mayer": [
-			1, 0, 1, 1, 1,
-			0, 0, 0, 0, 0,
-			1, 1, 1, 0, 0,
-			0, 1, 1, 0, 1,
-			0, 0, 0, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Alaa.Al-Awartani": [
-			0, 1, 1, 1, 0,
-			0, 0, 0, 0, 1,
-			1, 1, 1, 1, 1,
-			0, 1, 1, 1, 1,
-			1, 0, 0, 0, 1,
-			0, 1, 0, 0, 0,
-			0, 0, 1, 1, 0
-		],
-		"Peri.Matthews": [
-			0, 0, 1, 0, 0,
-			0, 1, 0, 0, 1,
-			1, 1, 0, 0, 0,
-			1, 1, 0, 1, 1,
-			1, 0, 1, 0, 0,
-			0, 1, 0, 1, 1,
-			0, 1, 0, 1, 0
-		]
-	};
-	teachers = {
-		/*"Copeland": [
-			0, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 0, 1, 0, 1,
-			0, 1, 0, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 0, 1,
-			0, 1, 0, 1, 1
-		],
-		"Barga": [
-			0, 0, 1, 0, 0,
-			0, 1, 1, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 0, 0, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Clark": [
-			0, 1, 1, 1, 1,
-			1, 1, 0, 1, 1,
-			0, 0, 1, 0, 0,
-			0, 0, 0, 1, 0,
-			0, 1, 1, 0, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 0, 1, 0
-		],
-		"Davis": [
-			1, 0, 1, 1, 1,
-			1, 1, 0, 1, 1,
-			0, 1, 0, 1, 1,
-			1, 1, 1, 0, 0,
-			1, 1, 0, 0, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Fritz": [
-			1, 1, 0, 1, 1,
-			1, 1, 1, 1, 1,
-			0, 1, 1, 1, 1,
-			0, 0, 1, 1, 1,
-			1, 0, 1, 1, 0,
-			1, 1, 1, 1, 0,
-			1, 1, 0, 0, 1
-		],
-		"Lyskava": [
-			1, 1, 0, 1, 1,
-			1, 0, 1, 0, 0,
-			1, 0, 1, 1, 1,
-			0, 0, 1, 0, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Luft": [
-			1, 1, 1, 0, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 0,
-			1, 0, 0, 1, 1,
-			0, 1, 1, 1, 1,
-			1, 0, 0, 1, 1,
-			0, 1, 1, 1, 0
-		],
-		"Fratangelo": [
-			1, 1, 1, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Pascuzzi": [
-			1, 1, 1, 1, 1,
-			0, 0, 1, 0, 1,
-			1, 1, 0, 1, 1,
-			0, 1, 1, 0, 1,
-			1, 1, 1, 0, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Strasbaugh": [
-			1, 1, 1, 1, 1,
-			1, 1, 0, 1, 1,
-			1, 1, 1, 0, 1,
-			0, 0, 1, 0, 0,
-			0, 1, 1, 1, 1,
-			1, 1, 0, 1, 1,
-			1, 0, 1, 1, 0
-		],
-		"Mays": [
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 0,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		],
-		"Burns": [
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			0, 1, 1, 1, 1,
-			1, 1, 1, 1, 1
-		]*/
-	};
-	 /*var json = (function () {
+    students = {
+        "Carissa Bailey": [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+        "Nikolas Vance": [0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0],
+        "Julia Guzman": [0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+        "Karla Palmer": [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+        "Amina Frank": [1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0],
+        "Gretchen Reyes": [0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1],
+        "Camila Hinton": [0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0],
+        "Abdullah Orozco": [0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1],
+        "Ernest Hubbard": [1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1],
+        "Taniyah Cox": [0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0],
+        "Zachary Zavala": [0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1],
+        "Kieran Shelton": [1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1],
+        "Phillip Lambert": [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0],
+        "Asia Gill": [0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0],
+        "Jaxon Scott": [0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
+        "Arielle Villarreal": [1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+        "Tyshawn Rogers": [0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1],
+        "Sincere Wilkinson": [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0],
+        "Devan Schwartz": [1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0],
+        "Francis Ellison": [1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0],
+        "Cedric Lawson": [1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+        "Deandre Mcmahon": [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+        "Jordyn Rowe": [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0],
+        "Nickolas Chaney": [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+        "Abbigail Harrison": [1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1],
+        "Haven Juarez": [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+        "Alani Richmond": [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1],
+        "Ariel Ibarra": [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        "Aedan Romero": [0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+        "Kyler Charles": [1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
+        "Sergio Leonard": [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1],
+        "Erika Skinner": [1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0],
+        "Carlo Bradley": [1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1],
+        "Kai Sullivan": [1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+        "Zariah Buck": [1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0],
+        "Elaine Weaver": [0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+        "Braelyn Conrad": [0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+        "Maya Carroll": [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        "Luca Camacho": [1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        "Derick Ayers": [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0],
+        "Danika Hunt": [0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0],
+        "Octavio Bates": [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0],
+        "Kendra Rowland": [0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+        "Darion Lambert": [0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0],
+        "Shyanne Lucas": [1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1],
+        "Nathaniel Bond": [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1],
+        "Lorelei Carrillo": [0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1],
+        "Robert Wheeler": [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0],
+        "Richard Huber": [0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],
+        "Allan Downs": [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0],
+        "Annalise Parker": [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1],
+        "Kailey Morrow": [0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+        "Elena Macias": [1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+        "Itzel Harrell": [1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1],
+        "Alfred Hansen": [0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
+        "Amari Weeks": [1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1],
+        "Evie Martin": [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+        "Veronica Floyd": [0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0],
+        "Urijah Pierce": [0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0],
+        "Ayaan Strong": [0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1],
+        "Andre Downs": [1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
+        "Jared Jefferson": [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+        "Hassan Goodwin": [0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0],
+        "Emanuel Rodriguez": [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+        "Nathan Smith": [0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0],
+        "Rayna Ochoa": [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0],
+        "Cash Glass": [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1],
+        "Jeramiah Mccall": [0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+        "Simeon Sharp": [1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1],
+        "Muhammad Mccann": [0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1],
+        "Jessie Forbes": [1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+        "Moshe Sanford": [0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0],
+        "Annabelle Preston": [1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+        "Gia Oneal": [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1],
+        "Annalise Lutz": [0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1],
+        "Gillian Archer": [1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1],
+        "Juliette Williams": [1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1],
+        "Donte Walls": [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1],
+        "Laila Underwood": [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0],
+        "Silas Rice": [0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0],
+        "Kenna Lawrence": [1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1],
+        "Christopher Gonzalez": [0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+        "Lindsey Branch": [0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0],
+        "Nevaeh Ryan": [1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1],
+        "Ryleigh Pierce": [1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1],
+        "Denisse Stafford": [0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1],
+        "Charlee Johnson": [0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1],
+        "Rex Parrish": [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1],
+        "Lucian Benton": [0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1],
+        "Aiyana Garza": [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+        "Caden Moyer": [0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+        "Maryjane Acevedo": [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+        "Salvador Mcdowell": [0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0],
+        "Davis Cunningham": [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
+        "Morgan Hanson": [0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+        "Jan Nolan": [1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1],
+        "Remington Cuevas": [0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+        "Brodie Bradford": [0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
+        "Dixie Collins": [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1],
+        "Braylen Zavala": [0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0]
+    };
+    teachers = {
+        "Hall": [0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0],
+        "Jackson": [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        "Johnson": [1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1],
+        "Anderson": [0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+        "Thompson": [1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+        "Wright": [0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0],
+        "Sanchez": [0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+        "Watson": [1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+        "Peterson": [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1],
+        "Baker": [0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1],
+        "Taylor": [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+        "Nelson": [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0],
+        "Jones": [1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+        "Perez": [1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+        "Richardson": [1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1],
+        "Perry": [0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0],
+        "Wood": [1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1],
+        "Roberts": [0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0],
+        "Robinson": [1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1],
+        "Scott": [1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        "Evans": [0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
+        "Butler": [0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+        "King": [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0],
+        "Williams": [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1],
+        "Murphy": [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0],
+        "Campbell": [1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1],
+        "Rogers": [1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1],
+        "Sullivan": [0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0],
+        "Ross": [0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1],
+        "Russell": [0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1],
+        "Lewis": [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1],
+        "White": [0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0],
+        "Brooks": [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+        "Powell": [0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
+        "Stewart": [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0],
+        "Collins": [1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1],
+        "Walker": [0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
+        "Hill": [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+        "Cooper": [0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+        "Foster": [1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1],
+        "Myers": [0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1],
+        "Thomas": [0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1],
+        "Phillips": [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        "Jenkins": [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0],
+        "Adams": [1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0],
+        "Fisher": [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+        "Cook": [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0],
+        "Barnes": [0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
+        "Parker": [1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        "Lopez": [0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1]
+    };
+    /*var json = (function () {
 		var json = null;
 		$.ajax({
 			'async': false,
@@ -345,146 +180,146 @@ if (true) {
 		return json;
 	})();
 	alert(json);*/
-	//alert(JSON.stringify(students));
+    //alert(JSON.stringify(students));
 } else {
-	var Http = new XMLHttpRequest(),
-		Http1 = new XMLHttpRequest();
-	Http.open("GET", "https://script.google.com/macros/s/AKfycbz_kkGXjc7sO8lBefMBXQoy30ClYZO6AceTvCrR-UmKMuYRxbc/exec");
-	Http.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			students = JSON.parse(Http.responseText);
-			genHTML();
-		}
-	};
-	Http1.open("GET", "https://script.google.com/macros/s/AKfycbx46OmFfJNyuMExGpp-6frOBzHmeJK1FTGMqQBl4ko6shOhb3Y/exec");
-	Http1.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			teachers = JSON.parse(Http1.responseText);
-			genHTML();
-		}
-	};
-	Http.send();
-	Http1.send();
+    var Http = new XMLHttpRequest(),
+        Http1 = new XMLHttpRequest();
+    Http.open("GET", "https://script.google.com/macros/s/AKfycbz_kkGXjc7sO8lBefMBXQoy30ClYZO6AceTvCrR-UmKMuYRxbc/exec");
+    Http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            students = JSON.parse(Http.responseText);
+            genHTML();
+        }
+    };
+    Http1.open("GET", "https://script.google.com/macros/s/AKfycbx46OmFfJNyuMExGpp-6frOBzHmeJK1FTGMqQBl4ko6shOhb3Y/exec");
+    Http1.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            teachers = JSON.parse(Http1.responseText);
+            genHTML();
+        }
+    };
+    Http.send();
+    Http1.send();
 }
 // Sort student names alphabetically
-Object.keys(students).sort().forEach(function(key) {
-	var value = students[key];
-	delete students[key];
-	students[key] = value;
+Object.keys(students).sort().forEach(function (key) {
+    var value = students[key];
+    delete students[key];
+    students[key] = value;
 });
 
 // Sort teacher names alphabetically
-Object.keys(teachers).sort().forEach(function(key) {
-	var value = teachers[key];
-	delete teachers[key];
-	teachers[key] = value;
+Object.keys(teachers).sort().forEach(function (key) {
+    var value = teachers[key];
+    delete teachers[key];
+    teachers[key] = value;
 });
 
 // Generate button for each person
 function genHTML() {
-	studentHTML = [];
-	teacherHTML = [];
-	activeHTML = [];
-	Object.keys(students).map(function(key, index) {
-		key = key.split(".");
-		// Add html to buttons div
-		var html = '<button id="' + key.join(".") + '"onClick="toggle(this);"' + ((active.indexOf(key.join(".")) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.25vw;">' + key[0].charAt(0).toUpperCase() + key[0].substring(1) + '</span><br><span style="font-size: 0.85vw;">' + key[1].charAt(0).toUpperCase() + key[1].substring(1) + '</span></div></button>';
-		studentHTML.push(html);
-		if (active.indexOf(key.join(".")) != -1) activeHTML.push(html);
-	});
-	Object.keys(teachers).map(function(key, index) {
-		teacherHTML.push('<button id="' + key + '"onClick="toggle(this);"' + ((activeTeacher.indexOf(key) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.35vw;">' + ((teachers[key].length > 40) ? teachers[key][teachers[key].length - 1] : "") + " " + key + '</span></div></button>');
-	});
-	refreshHTML();
+    studentHTML = [];
+    teacherHTML = [];
+    activeHTML = [];
+    Object.keys(students).map(function (key, index) {
+        key = key.split(".");
+        // Add html to buttons div
+        var html = '<button id="' + key.join(".") + '"onClick="toggle(this);"' + ((active.indexOf(key.join(".")) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.25vw;">' + key[0].charAt(0).toUpperCase() + key[0].substring(1) + '</span><br><span style="font-size: 0.85vw;">' + key[1].charAt(0).toUpperCase() + key[1].substring(1) + '</span></div></button>';
+        studentHTML.push(html);
+        if (active.indexOf(key.join(".")) != -1) activeHTML.push(html);
+    });
+    Object.keys(teachers).map(function (key, index) {
+        teacherHTML.push('<button id="' + key + '"onClick="toggle(this);"' + ((activeTeacher.indexOf(key) != -1) ? 'class="selected"' : '') + '>\n<div class="content"><span style="font-size: 1.35vw;">' + ((teachers[key].length > 40) ? teachers[key][teachers[key].length - 1] : "") + " " + key + '</span></div></button>');
+    });
+    refreshHTML();
 }
 genHTML();
 
 function toggleTab(str) {
-	var list = document.getElementsByClassName("button");
-	for (var i = 0; i < list.length; i++) list[i].classList.remove("active");
-	list[["students", "selected", "teachers"].indexOf(str)].classList.add("active");
-	genHTML();
+    var list = document.getElementsByClassName("button");
+    for (var i = 0; i < list.length; i++) list[i].classList.remove("active");
+    list[["students", "selected", "teachers"].indexOf(str)].classList.add("active");
+    genHTML();
 }
 
 function refreshHTML() {
-	// Reset cells
-	for (var i = 0; i < 35; i++) {
-		var val = "";
-		if (i < 5) val = "8:10 - 9:10";
-		else if (i < 10) val = "9:10 - 10:10";
-		else if (i < 15) val = "10:10 - 11:10";
-		else if (i < 20) val = "11:10 - 11:40";
-		else if (i < 25) val = "11:40 - 12:30";
-		else if (i < 30) val = "1:40 - 2:40";
-		else if (i < 35) val = "2:40 - 3:40";
-		document.getElementById(i).innerHTML = val;
-	}
-	switch (document.getElementsByClassName("active")[0].id) {
-		case "students":
-		case "selected":
-			if (document.getElementsByClassName("active")[0].id == "students") {
-				document.getElementById("buttons").innerHTML = studentHTML.join("");
-			} else {
-				document.getElementById("buttons").innerHTML = activeHTML.join("");
-			}
-			// Fill vals
-			Object.keys(students).map(function(objectKey, index) {
-				if (active.indexOf(objectKey) != -1) {
-					for (var j = 0; j < students[objectKey].length; j++)
-						if (students[objectKey][j] == 1) document.getElementById(j).innerHTML = empty;
-				}
-			});
-			break;
-		case "teachers":
-			document.getElementById("buttons").innerHTML = teacherHTML.join("");
-			// Fill vals
-			if (activeTeacher != "") {
-				for (var j = 0; j < teachers[activeTeacher].length; j++)
-					if (teachers[activeTeacher][j] == 1) document.getElementById(j).innerHTML = empty;
-			}
-			break;
-	}
+    // Reset cells
+    for (var i = 0; i < 35; i++) {
+        var val = "";
+        if (i < 5) val = "8:10 - 9:10";
+        else if (i < 10) val = "9:10 - 10:10";
+        else if (i < 15) val = "10:10 - 11:10";
+        else if (i < 20) val = "11:10 - 11:40";
+        else if (i < 25) val = "11:40 - 12:30";
+        else if (i < 30) val = "1:40 - 2:40";
+        else if (i < 35) val = "2:40 - 3:40";
+        document.getElementById(i).innerHTML = val;
+    }
+    switch (document.getElementsByClassName("active")[0].id) {
+        case "students":
+        case "selected":
+            if (document.getElementsByClassName("active")[0].id == "students") {
+                document.getElementById("buttons").innerHTML = studentHTML.join("");
+            } else {
+                document.getElementById("buttons").innerHTML = activeHTML.join("");
+            }
+            // Fill vals
+            Object.keys(students).map(function (objectKey, index) {
+                if (active.indexOf(objectKey) != -1) {
+                    for (var j = 0; j < students[objectKey].length; j++)
+                        if (students[objectKey][j] == 1) document.getElementById(j).innerHTML = empty;
+                }
+            });
+            break;
+        case "teachers":
+            document.getElementById("buttons").innerHTML = teacherHTML.join("");
+            // Fill vals
+            if (activeTeacher != "") {
+                for (var j = 0; j < teachers[activeTeacher].length; j++)
+                    if (teachers[activeTeacher][j] == 1) document.getElementById(j).innerHTML = empty;
+            }
+            break;
+    }
 }
 
 function deselectAll() {
-	if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
-		active = [];
-	} else {
-		activeTeacher = "";
-	}
-	var list = document.getElementsByClassName("selected");
-	for (var j = 0; j < list.length; j++) {
-		list[j].classList.remove("selected");
-	}
-	genHTML();
+    if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
+        active = [];
+    } else {
+        activeTeacher = "";
+    }
+    var list = document.getElementsByClassName("selected");
+    for (var j = 0; j < list.length; j++) {
+        list[j].classList.remove("selected");
+    }
+    genHTML();
 }
 // Toggle between active & inactive states
 function toggle(button) {
-	if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
-		if (document.getElementById(button.id).classList.contains("selected")) {
-			document.getElementById(button.id).classList.remove("selected");
-			// Already selected, remove from array
-			active.splice(active.indexOf(button.id), 1);
-		} else {
-			document.getElementById(button.id).classList.add("selected");
-			// Not selected, add to array
-			active.push(button.id);
-		}
-	} else {
-		if (activeTeacher == button.id) {
-			document.getElementById(button.id).classList.remove("selected");
-			activeTeacher = "";
-		} else {
-			if (activeTeacher != "") document.getElementById(activeTeacher).classList.remove("selected");
-			document.getElementById(button.id).classList.add("selected");
-			activeTeacher = button.id;
-		}
-	}
-	genHTML();
+    if (document.getElementsByClassName("active")[0].id == "students" || document.getElementsByClassName("active")[0].id == "selected") {
+        if (document.getElementById(button.id).classList.contains("selected")) {
+            document.getElementById(button.id).classList.remove("selected");
+            // Already selected, remove from array
+            active.splice(active.indexOf(button.id), 1);
+        } else {
+            document.getElementById(button.id).classList.add("selected");
+            // Not selected, add to array
+            active.push(button.id);
+        }
+    } else {
+        if (activeTeacher == button.id) {
+            document.getElementById(button.id).classList.remove("selected");
+            activeTeacher = "";
+        } else {
+            if (activeTeacher != "") document.getElementById(activeTeacher).classList.remove("selected");
+            document.getElementById(button.id).classList.add("selected");
+            activeTeacher = button.id;
+        }
+    }
+    genHTML();
 }
 // Search
 function searchTable() {
-	// Loop through buttons in table & hide ones that don't contain query
-	var button = document.getElementById("buttons").getElementsByTagName("button");
-	for (var i = 0; i < button.length; i++) button[i].style.display = (button[i].id.replace(".", "").toUpperCase().indexOf(document.getElementById("input").value.toUpperCase().replace(/[^A-Z\-]*/g, "")) > -1) ? "" : "none";
+    // Loop through buttons in table & hide ones that don't contain query
+    var button = document.getElementById("buttons").getElementsByTagName("button");
+    for (var i = 0; i < button.length; i++) button[i].style.display = (button[i].id.replace(".", "").toUpperCase().indexOf(document.getElementById("input").value.toUpperCase().replace(/[^A-Z\-]*/g, "")) > -1) ? "" : "none";
 }
