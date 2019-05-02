@@ -4,49 +4,29 @@ var active = [],
     teacherHTML = [],
     activeTeacher = "",
     empty = "X",
-    students = {
-        "Abbey.Helterbran":     [1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1],
-        "Alaa.Al-Awartani":     [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0],
-        "Amelia.Smith-Tine":    [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0],
-        "Blair.Parr":           [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0],
-        // "Casey.Morar":          [],
-        "Cody.Buckholt":        [1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-        "Connor.Thompson":      [1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-        // "David.Satterwhite":    [],
-        "Erik.Schauer":         [1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        // "Francesca.Cuzzocrea":  [],
-        // "Harrison.Mayer":       [],
-        "Gavin.Tatton":         [1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0],
-        "Hunter.Ford":          [1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1],
-        "Jacob.Arnold":         [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1],
-        "Jamir.Wilson":         [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0],
-        "Joseph.Nicotra":       [1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
-        "Julia.Imler":          [0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        "Justin.Barszczowski":  [0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
-        // "Logan.Tanner":         [],
-        // "Mark.Garvey":          [],
-        "Maurice.Gardner":      [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        // "Nicholas.Jones":       [],
-        "Peri.Matthews":        [0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-        "Ryan.Fisher":          [0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0],
-        "Savanna.Zink":         [0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1],
-        "Steven.Mizgorski":     [0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
-        // "Steven.Mizgorski":     [],
-        "Vincent.Folkes":       [0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    },
+    students = {},
     teachers = {};
-// Sort student names alphabetically
-Object.keys(students).sort().forEach(function (key) {
-    var value = students[key];
-    delete students[key];
-    students[key] = value;
-});
 
-// Sort teacher names alphabetically
-Object.keys(teachers).sort().forEach(function (key) {
-    var value = teachers[key];
-    delete teachers[key];
-    teachers[key] = value;
+$.getJSON("https://api.airtable.com/v0/app9proRX9oZCpOif/Table%201?api_key=keyl2Akj2BOwPFxDs", function(result) {
+    for (let record of result.records) {
+        students[record.fields.name] = record.fields.data.split("");
+    }
+
+    // Sort student names alphabetically
+    Object.keys(students).sort().forEach(function (key) {
+        let value = students[key];
+        delete students[key];
+        students[key] = value;
+    });
+
+    // Sort teacher names alphabetically
+    Object.keys(teachers).sort().forEach(function (key) {
+        let value = teachers[key];
+        delete teachers[key];
+        teachers[key] = value;
+    });
+    
+    genHTML();
 });
 
 // Generate button for each person
@@ -66,7 +46,6 @@ function genHTML() {
     });
     refreshHTML();
 }
-genHTML();
 
 function toggleTab(str) {
     var list = document.getElementsByClassName("button");
