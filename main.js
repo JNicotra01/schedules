@@ -1,4 +1,4 @@
-var active = [],
+let active = [],
     studentHTML = [],
     activeHTML = [],
     teacherHTML = [],
@@ -7,27 +7,34 @@ var active = [],
     students = {},
     teachers = {};
 
-$.getJSON("https://api.airtable.com/v0/app9proRX9oZCpOif/Table%201?api_key=keyl2Akj2BOwPFxDs", function(result) {
-    for (let record of result.records) {
-        students[record.fields.name] = record.fields.data.split("");
-    }
+$.when(
+			$.getJSON("https://api.airtable.com/v0/app9proRX9oZCpOif/Students?api_key=keyl2Akj2BOwPFxDs", function(data) {
+				for (let record of data.records) {
+					students[record.fields.name] = record.fields.data.split("");
+				}
+			}),
+			$.getJSON("https://api.airtable.com/v0/app9proRX9oZCpOif/Teachers?api_key=keyl2Akj2BOwPFxDs", function(data) {
+				for (let record of data.records) {
+					teachers[record.fields.name] = record.fields.data.split("");
+				}
+			})
+		).then(function () {
+			// Sort student names alphabetically
+			Object.keys(students).sort().forEach(function (key) {
+				let value = students[key];
+				delete students[key];
+				students[key] = value;
+			});
 
-    // Sort student names alphabetically
-    Object.keys(students).sort().forEach(function (key) {
-        let value = students[key];
-        delete students[key];
-        students[key] = value;
-    });
+			// Sort teacher names alphabetically
+			Object.keys(teachers).sort().forEach(function (key) {
+				let value = teachers[key];
+				delete teachers[key];
+				teachers[key] = value;
+			});
 
-    // Sort teacher names alphabetically
-    Object.keys(teachers).sort().forEach(function (key) {
-        let value = teachers[key];
-        delete teachers[key];
-        teachers[key] = value;
-    });
-    
-    genHTML();
-});
+			genHTML();
+		});
 
 // Generate button for each person
 function genHTML() {
